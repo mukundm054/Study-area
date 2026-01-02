@@ -68,7 +68,7 @@ function SvgSlider() {
     const fetchData=async()=>{
       try {
         const [internshipres, jobres]=await Promise.all([
-        axios.get("https://study-area-ko6n.onrender.com/interships"),
+        axios.get("https://study-area-ko6n.onrender.com/api/interships"),
         axios.get("https://study-area-ko6n.onrender.com/api/jobs")
       ])
       setInterships(internshipres.data)
@@ -300,7 +300,7 @@ function SvgSlider() {
                   Jobs
                 </span>
                 <Link
-                  href={`/detailInternship?q=${job._id}`}
+                  href={`/detailjobs/${job._id}`}
                   className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
                 >
                   View details
