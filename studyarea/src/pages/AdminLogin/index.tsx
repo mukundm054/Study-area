@@ -32,7 +32,7 @@ const AdminLogin = () => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/admin/adminlogin",
+        "https://study-area-ko6n.onrender.com/api/admin/adminlogin",
         formData
       );
 
