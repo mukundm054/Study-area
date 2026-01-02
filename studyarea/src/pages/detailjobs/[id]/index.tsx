@@ -1,10 +1,11 @@
 import { selectuser  } from '@/Fetaure/Userslice';
 import axios from 'axios';
-import { ArrowUpRight, Calendar, DollarSign, ExternalLink, Link, MapPin, X } from 'lucide-react';
+import { ArrowUpRight, Calendar, DollarSign, ExternalLink,  MapPin, X } from 'lucide-react';
 import router, { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import Link from "next/link";
 
 
 
