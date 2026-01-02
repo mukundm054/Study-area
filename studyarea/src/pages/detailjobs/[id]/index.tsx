@@ -317,7 +317,10 @@ import { toast } from 'react-toastify';
 
               <div className="flex justify-end">
                 {user ? (
-                  <button className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer  hover:bg-emerald-600" onClick={handelSubmitApplication}>
+                  <button
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer  hover:bg-emerald-600"
+                    onClick={handelSubmitApplication}
+                  >
                     Submit Application
                   </button>
                 ) : (
