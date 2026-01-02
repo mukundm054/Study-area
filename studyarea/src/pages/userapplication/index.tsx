@@ -66,7 +66,7 @@ const index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/application");
+        const res = await axios.get("https://study-area-ko6n.onrender.com/api/application");
 
         setdata(res.data);
       } catch (error) {
