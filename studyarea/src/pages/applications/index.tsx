@@ -50,7 +50,7 @@ const index = () => {
 
   const handelAcceptandReject = async(id:any,action:any)=>{
     try {
-      const res= await axios.put(`http://localhost:5000/api/application/${id}`,{action})
+      const res= await axios.put(`https://study-area-ko6n.onrender.com/api/application/${id}`,{action})
       const updateapplicationaction=data.map((app:any)=>app._id===id?res.data.data:app)
       setdata(updateapplicationaction)
       toast.success('update sucessful')
