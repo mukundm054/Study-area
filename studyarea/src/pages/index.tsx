@@ -68,8 +68,8 @@ function SvgSlider() {
     const fetchData=async()=>{
       try {
         const [internshipres, jobres]=await Promise.all([
-        axios.get("http://localhost:5000/api/interships"),
-        axios.get("http://localhost:5000/api/jobs")
+        axios.get("https://study-area-ko6n.onrender.com/interships"),
+        axios.get("https://study-area-ko6n.onrender.com/api/jobs")
       ])
       setInterships(internshipres.data)
       setJobs(jobres.data)
