@@ -44,7 +44,7 @@ const index = () => {
     }
     try {
       setisLoading(true)
-       const res=await axios.post("http://localhost:5000/api/interships",formData)
+       const res=await axios.post("https://study-area-ko6n.onrender.com/api/interships",formData)
       toast.success("job posted successfully")
       router.push("/AdminPanal")
      
