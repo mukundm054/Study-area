@@ -118,7 +118,7 @@ import { toast } from 'react-toastify';
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/jobs/${id}`);
+      const res = await axios.get(`https://study-area-ko6n.onrender.com/api/jobs/${id}`);
 
       setjobs(res.data);            
       
@@ -173,7 +173,7 @@ import { toast } from 'react-toastify';
       };
 
       await axios.post(
-        "http://localhost:5000/api/application",
+        "https://study-area-ko6n.onrender.com/api/application",
         applicationData
       );
       toast.success("Your application is submited ");
