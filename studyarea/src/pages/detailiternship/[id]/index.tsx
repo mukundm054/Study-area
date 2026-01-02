@@ -23,7 +23,7 @@ function InternshipDetails() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/interships/${id}`
+          `https://study-area-ko6n.onrender.com/api/interships/${id}`
         );
 
         setInterships(res.data);
@@ -74,7 +74,7 @@ function InternshipDetails() {
       };
 
       await axios.post(
-        "http://localhost:5000/api/application",
+        "https://study-area-ko6n.onrender.com/api/application",
         applicationData
       );
       toast.success("Your application is submited ");
