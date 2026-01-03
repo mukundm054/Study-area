@@ -41,7 +41,7 @@ const Navbar = () => {
           </Link>
 
           {/* Nav Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className=" md:flex items-center space-x-8">
             <Link
               href="/Interships"
               className="text-gray-700 hover:text-blue-600"

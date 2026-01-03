@@ -59,7 +59,7 @@ const AdminLogin = () => {
         />
       </div>
 
-      <div className="relative min-h-screen flex flex-col justify-center sm:px-6 lg:px-8">
+      <div className="relative min-h-screen flex flex-col justify-center sm:px-6  lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-center text-3xl font-extrabold text-purple-600">
             Admin Login
