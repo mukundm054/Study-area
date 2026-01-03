@@ -113,10 +113,10 @@ const Navbar = () => {
       </div>
 
       {mobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-md border-t">
+          <div className="md:hidden bg-sky-400 shadow-md border-t">
             <Link
               href="/Interships"
-              className="block px-4 py-3 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-3 text-white hover:bg-gray-100"
               onClick={() => setMobileMenuOpen(false)}
             >
               Internships
@@ -124,7 +124,7 @@ const Navbar = () => {
 
             <Link
               href="/jobs"
-              className="block px-4 py-3 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-3 text-white hover:bg-gray-100"
               onClick={() => setMobileMenuOpen(false)}
             >
               Jobs
