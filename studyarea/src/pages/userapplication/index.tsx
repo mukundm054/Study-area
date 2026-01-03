@@ -78,20 +78,14 @@ const index = () => {
   }, []);
 
   const userapplication = data.filter(
-    (app: any) => app.user?._id === user?._id
+    (app: any) => app.user?.name === user?.name
   );
 
   const filteredApplications = userapplication.filter((application: any) => {
     const searchMatch =
-      (application.company || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      (application.category || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      (application.user?.name || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      application.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      application.category .toLowerCase().includes(searchTerm.toLowerCase()) 
+  
     if (Filter === "all") return searchMatch;
      return searchMatch && application.status.toLowerCase() === Filter;
     
