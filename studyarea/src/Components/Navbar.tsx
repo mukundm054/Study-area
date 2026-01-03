@@ -93,7 +93,7 @@ const Navbar = () => {
               <>
                 <button
                   onClick={handleLogin}
-                  className=" text-gray-600 border h-auto border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50"
+                  className=" text-gray-600 md:text-3xl border h-auto border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50"
                 >
                   Continue with Google
                 </button>
