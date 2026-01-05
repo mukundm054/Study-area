@@ -1,5 +1,5 @@
 import { ExternalLink, Mail, User } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { selectuser } from "@/Fetaure/Userslice";
 import { useSelector } from "react-redux";
@@ -14,24 +14,48 @@ interface User {
 
 const index = () => {
   const user = useSelector(selectuser);
-  const [friendId, setFriendId] = useState("");
+  const [friendEmail, setFriendEmail] = useState("");
+  const [friendCount, setFriendCount] = useState(0);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    const fetchFriendCount = async () => {
+      try {
+        const res = await axios.post(
+          "https://study-area-ko6n.onrender.com/api/user/friends-count",
+          { email: user.email }
+        );
+        setFriendCount(res.data.count);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchFriendCount();
+  }, [user]);
 
   const handelAddFriend = async () => {
-    if (!friendId) {
-      toast.error("Friend Id required");
+    if (!friendEmail) {
+      toast.error("Friend email required");
       return;
     }
 
     try {
       await axios.put(
-        `https://study-area-ko6n.onrender.com/api/user/add-friend/${user._id}`,
-        { friendId: friendId }
+        "https://study-area-ko6n.onrender.com/api/user/add-friend",
+        {
+          userEmail: user.email,
+          friendEmail: friendEmail,
+        }
       );
-      toast.success("Friend added sucessfully");
-      setFriendId("");
+
+      toast.success("Friend added successfully");
+      setFriendCount((prev) => prev + 1);
+      setFriendEmail("");
     } catch (error) {
       console.log(error);
-      toast.error("Fialed to add friend");
+      toast.error("Failed to add friend");
     }
   };
 
@@ -98,6 +122,12 @@ const index = () => {
                     Accepted Applications
                   </p>
                 </div>
+                <div className="bg-purple-50 rounded-lg p-4 text-center">
+                  <span className="text-purple-600 font-semibold text-2xl">
+                    {friendCount}
+                  </span>
+                  <p className="text-purple-600 text-sm mt-1">Friends</p>
+                </div>
               </div>
 
               {/* Actions */}
@@ -119,10 +149,10 @@ const index = () => {
         <h3 className="text-lg font-semibold text-black mb-2">Add Friend</h3>
         <input
           type="text"
-          placeholder="enter friends userId"
-          value={friendId}
-          onChange={(e) => setFriendId(e.target.value)}
-          className=" border p-2 rounded text-black mb-3"
+          placeholder="Enter friend's email"
+          value={friendEmail}
+          onChange={(e) => setFriendEmail(e.target.value)}
+          className="border p-2 rounded text-black mb-3"
         />
         <button
           className="bg-blue-600 ml-3 text-white px-4 py-2 rounded hover:bg-blue-700"

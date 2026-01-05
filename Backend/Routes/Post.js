@@ -5,20 +5,21 @@ const User = require("../model/User");
 
 
 router.post("/", async (req, res) => {
-  try {
-    const { userId, mediaUrl, mediaType, caption } = req.body;
+   try {
+    const { userEmail, mediaUrl, mediaType, caption } = req.body;
 
-    const user = await User.findOne({ uid: userId });
+    
+    const user = await User.findOne({ email: userEmail });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    
     const friendCount = user.friends.length;
 
-    
     if (friendCount === 0) {
       return res.status(403).json({
-        error: "Add at least one friend to start posting",
+        error: "Add friends to start posting",
       });
     }
 
@@ -28,28 +29,31 @@ router.post("/", async (req, res) => {
       today.setHours(0, 0, 0, 0);
 
       const postsToday = await Post.countDocuments({
-        user: user._id,
+        userEmail,
         createdAt: { $gte: today },
       });
 
       if (postsToday >= friendCount) {
         return res.status(403).json({
-          error: `Daily post limit reached (${friendCount})`,
+          error: `Daily limit reached (${friendCount} posts)`,
         });
       }
     }
 
+    
     const post = await Post.create({
-      user: user._id,
+      userEmail,
       mediaUrl,
       mediaType,
       caption,
+      likes: [],
+      comments: [],
     });
 
     res.status(201).json(post);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -66,34 +70,40 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/like/id:", async (req, res) => {
-  const { userId } = req.body;
-  const post = await Post.findById(req.params.id);
-  if (!post) return res.status(404).json({ error: "Post not found" });
-  const index = post.likes.indexOf(userId);
+router.put("/like/:id", async (req, res) => {
+  const { userEmail } = req.body;
 
-  if (index === -1) {
-    post.likes.push(userId);
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
+
+  if (!post.likes.includes(userEmail)) {
+    post.likes.push(userEmail); // LIKE
   } else {
-    post.likes.splice(index, 1);
+    post.likes = post.likes.filter(email => email !== userEmail); // UNLIKE
   }
 
   await post.save();
   res.json(post);
 });
 
-router.post("/comment/id:", async (req, res) => {
-  const { userId, text } = req.body;
+router.post("/comment/:id", async (req, res) => {
+  const { userEmail, text } = req.body;
 
   const post = await Post.findById(req.params.id);
-  if (!post) return res.status(404).json({ error: "Post not found" });
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
 
   post.comments.push({
-    user: userId,
+    userEmail,
     text,
+    createdAt: new Date(),
   });
 
   await post.save();
   res.json(post);
 });
+
 module.exports = router;

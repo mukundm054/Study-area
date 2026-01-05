@@ -32,6 +32,8 @@ const Postschema = mongoose.Schema({
     required: true,
   },
 
+  likes: [String],
+
   caption: {
     type: String,
   },
