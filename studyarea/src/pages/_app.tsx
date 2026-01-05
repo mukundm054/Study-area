@@ -9,25 +9,12 @@ import { auth } from "@/Firebase/firebase";
 import { login, logout } from "@/Fetaure/Userslice";
 import { User } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-
-export default function App({ Component, pageProps }: AppProps) {function AuthListener() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
-      try {
+export default function App({ Component, pageProps }: AppProps) {
+  function AuthListener() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      auth.onAuthStateChanged((user: User | null) => {
         if (user) {
-          await axios.post(
-            "https://study-area-ko6n.onrender.com/api/user/create",
-            {
-              uid: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photo: user.photoURL,
-            }
-          );
-
           dispatch(
             login({
               uid: user.uid,
@@ -40,25 +27,15 @@ export default function App({ Component, pageProps }: AppProps) {function AuthLi
         } else {
           dispatch(logout());
         }
-      } catch (error) {
-        console.error("User sync failed", error);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [dispatch]);
-
-  return null;
-}
-
-
+      });
+    }, [dispatch]);
+    return null;
+  }
   return (
     <Provider store={store}>
-      <AuthListener />
-      <ToastContainer />
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
+      {" "}
+      <AuthListener /> <ToastContainer /> <Navbar />{" "}
+      <Component {...pageProps} /> <Footer />{" "}
     </Provider>
   );
 }
