@@ -39,23 +39,7 @@ router.put("/add-friend", async (req, res) => {
   }
 });
 
-router.put("/add-friend", async (req, res) => {
-  const { userEmail, friendEmail } = req.body;
 
-  const user = await User.findOne({ email: userEmail });
-  const friend = await User.findOne({ email: friendEmail });
-
-  if (!user || !friend) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  if (!user.friends.includes(friend.email)) {
-    user.friends.push(friend.email);
-    await user.save();
-  }
-
-  res.json({ message: "Friend added", friends: user.friends });
-});
 
 router.get("/friends-count/:email", async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
