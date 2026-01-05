@@ -13,7 +13,7 @@ router.post("/create", async (req, res) => {
   res.json(user);
 });
 
-router.put("/add-friend/:id", async (req, res) => {
+router.put("/add-friend", async (req, res) => {
   try {
     const { userEmail, friendEmail } = req.body;
 
