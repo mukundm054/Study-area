@@ -9,26 +9,42 @@ import { auth } from "@/Firebase/firebase";
 import { login, logout } from "@/Fetaure/Userslice";
 import { User } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 export default function App({ Component, pageProps }: AppProps) {
   function AuthListener() {
     const dispatch = useDispatch();
-    useEffect(() => {
-      auth.onAuthStateChanged((user: User | null) => {
-        if (user) {
-          dispatch(
-            login({
-              uid: user.uid,
-              photo: user.photoURL,
-              name: user.displayName,
-              email: user.email,
-              phoneNumber: user.phoneNumber,
-            })
-          );
-        } else {
-          dispatch(logout());
+   useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    if (user) {
+
+      // 🔴 THIS IS THE FIX
+      await axios.post(
+        "https://study-area-ko6n.onrender.com/api/user/create",
+        {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
         }
-      });
-    }, [dispatch]);
+      );
+
+      dispatch(
+        login({
+          uid: user.uid,
+          photo: user.photoURL,
+          name: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+        })
+      );
+    } else {
+      dispatch(logout());
+    }
+  });
+
+  return () => unsubscribe();
+}, [dispatch]);
+
     return null;
   }
   return (
