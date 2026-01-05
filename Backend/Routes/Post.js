@@ -7,35 +7,40 @@ const User = require("../model/User");
 router.post("/", async (req, res) => {
   try {
     const { userId, mediaUrl, mediaType, caption } = req.body;
-    const user = await User.findOne({uid:userId});
-    if (!user) return res.status(404).json({ error: "user not found" });
+
+    const user = await User.findOne({ uid: userId });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
     const friendCount = user.friends.length;
 
+    
     if (friendCount === 0) {
-      return;
-      res.status(403).json({ error: "add friends to start Posting" });
+      return res.status(403).json({
+        error: "Add at least one friend to start posting",
+      });
     }
 
+    
     if (friendCount <= 10) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
       const postsToday = await Post.countDocuments({
-        user: userId,
+        user: user._id,
         createdAt: { $gte: today },
       });
 
       if (postsToday >= friendCount) {
-        return;
-        res
-          .status(403)
-          .json({ error: `Daily post limit reached ${friendCount}` });
+        return res.status(403).json({
+          error: `Daily post limit reached (${friendCount})`,
+        });
       }
     }
 
     const post = await Post.create({
-      user: userId,
+      user: user._id,
       mediaUrl,
       mediaType,
       caption,
@@ -43,9 +48,11 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(post);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 router.get("/", async (req, res) => {
   try {

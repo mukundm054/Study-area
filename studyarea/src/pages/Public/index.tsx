@@ -42,7 +42,8 @@ const index = () => {
   const [Posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const friendCount = 2;
+  const [friendCount, setFriendCount] = useState(0);
+
   const canPost = friendCount > 0;
 
   useEffect(() => {
@@ -60,6 +61,24 @@ const index = () => {
       }
     };
   });
+
+  useEffect(() => {
+  if (!user) return;
+
+  const fetchFriendCount = async () => {
+    try {
+      const res = await axios.get(
+        `https://study-area-ko6n.onrender.com/api/user/${user.mongoId}/friends-count`
+      );
+      setFriendCount(res.data.count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchFriendCount();
+}, [user]);
+
 
   const handelPost = async () => {
     if (!user) {

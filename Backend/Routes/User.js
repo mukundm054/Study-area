@@ -14,30 +14,50 @@ router.post("/create", async (req, res) => {
 });
 
 router.put("/add-friend/:id", async (req, res) => {
-  const { frinedId } = req.body;
+  try {
+    const { userEmail, friendEmail } = req.body;
 
-  const user = await User.findById(req.params.id);
+    if (userEmail === friendEmail) {
+      return res.status(400).json({ error: "You cannot add yourself" });
+    }
 
-  if (!user.friends.includes(frinedId)) {
-    user.friends.push(frinedId);
-    await user.save();
+    const user = await User.findOne({ email: userEmail });
+    const friend = await User.findOne({ email: friendEmail });
+
+    if (!user || !friend) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (!user.friends.includes(friendEmail)) {
+      user.friends.push(friendEmail);
+      await user.save();
+    }
+
+    res.json({ message: "Friend added", friends: user.friends });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add friend" });
   }
-
-  res.json(user);
 });
 
-router.put("/remove-friend/:id", async (req, res) => {
-  const { frinedId } = req.body;
+router.put("/remove-friend", async (req, res) => {
+  try {
+    const { userEmail, friendEmail } = req.body;
 
-  const user = await User.findById(req.params.id);
-  user.friends = user.friends.filter((f) => f.toString() !== frinedId);
-  await user.save();
+    const user = await User.findOne({ email: userEmail });
+    if (!user) return res.status(404).json({ error: "User not found" });
 
-  res.json(user);
+    user.friends = user.friends.filter((email) => email !== friendEmail);
+    await user.save();
+
+    res.json({ message: "Friend removed", friends: user.friends });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to remove friend" });
+  }
 });
 
-router.get("/:id/friends-count", async (req, res) => {
-  const user = await User.findById(req.params.id);
+router.get("/friends-count/:email", async (req, res) => {
+  const user = await User.findOne({ email: req.params.email });
+  if (!user) return res.status(404).json({ count: 0 });
   res.json({ count: user.friends.length });
 });
 
