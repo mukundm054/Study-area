@@ -1,10 +1,13 @@
+import { selectuser } from '@/Fetaure/Userslice';
 import axios from 'axios';
 import { Heart, MessageCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 
 const index = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading,setLoading]=useState(true)
+  const user = useSelector(selectuser)
 
   useEffect(()=>{
     const fetchPost = async()=>{
@@ -35,8 +38,8 @@ const index = () => {
               {/* user */}
 
               <div className="flex items-center gap-3 mb-3">
-                <img src={post.user?.photo} className="w-10 h-10 rounded-full"/>
-                <span className="font-semibold text-black">{post.user?.name}</span>
+                <img src={user?.photo} className="w-10 h-10 rounded-full"/>
+                <span className="font-semibold text-black">{post.userEmail}</span>
               </div>
 
               {/* media */}
@@ -47,7 +50,7 @@ const index = () => {
               )}
 
               {/* Caption */}
-              <p className="text-gray-700 mb-2">{post.Caption}</p>
+              <p className="text-gray-700 mb-2">{post.caption}</p>
 
                <div className="flex items-center gap-6 text-gray-600">
                 <div className="flex items-center gap-1">

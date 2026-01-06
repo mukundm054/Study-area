@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const index = () => {
   const user = useSelector(selectuser);
 
-  const [Caption, setCaption] = useState("");
+  const [caption, setCaption] = useState("");
   const [mediaUrl, setMediaUrl] = useState("");
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const index = () => {
       setLoading(true);
       await axios.post("https://study-area-ko6n.onrender.com/api/post", {
         userEmail: user.email,
-        Caption,
+        caption,
         mediaUrl,
         mediaType,
       });
@@ -46,7 +46,7 @@ const index = () => {
       <div className="max-w-xl mx-auto bg-gray-300 rounded-lg shadow p-6">
         <h1 className="text-lg font-bold text-purple-500 mb-4">Create Post</h1>
         <textarea
-          value={Caption}
+          value={caption}
           onChange={(e) => {
             setCaption(e.target.value);
           }}
