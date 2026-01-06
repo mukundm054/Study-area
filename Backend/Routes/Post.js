@@ -60,12 +60,10 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const Posts = await Post.find()
-      .populate("user", "name photo")
-      .populate("comments.user", "name photo")
-      .sort({ createdAt: -1 });
-    res.json(Posts);
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.json(posts);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Faild to Fetch Feed" });
   }
 });
