@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
 const Commentschema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  
+  userEmail:String,
 
   text: String,
 
@@ -15,9 +13,8 @@ const Commentschema = mongoose.Schema({
 });
 
 const Postschema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  userEmail: {
+    type: String,
     required: true,
   },
 
