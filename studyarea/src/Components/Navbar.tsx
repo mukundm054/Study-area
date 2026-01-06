@@ -56,6 +56,10 @@ const Navbar = () => {
               Public Space 
             </Link>
 
+            <Link href="/createPost" className="text-gray-700 hover:text-blue-600">
+              Create Post
+            </Link>
+
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
               <input
@@ -139,6 +143,14 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Public Space 
+            </Link>
+
+            <Link
+              href="/createPost"
+              className="block px-4 py-3 text-white hover:bg-gray-100"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Create post 
             </Link>
 
             <div className="px-4 py-3">
