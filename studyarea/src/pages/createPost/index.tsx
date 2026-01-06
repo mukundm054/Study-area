@@ -53,7 +53,7 @@ const index = () => {
           placeholder="What's on your mind?"
           className="w-full border rounded p-2 mb-3 text-black"
         />
-        <input value={mediaUrl}  onChange={(e) => {
+        <input type="file" accept="image/*,video/*" value={mediaUrl}  onChange={(e) => {
             setMediaUrl(e.target.value);
             setMediaType(e.target.value.includes(".mp4") ? "video" : "image");
           }}
