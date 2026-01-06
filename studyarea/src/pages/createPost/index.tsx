@@ -64,7 +64,7 @@ const index = () => {
             mediaType==="image"?(
                 <img src={mediaUrl} className="rounded mb-3" />
             ):(
-                <video src={mediaUrl} className="rounded mb-3"/>
+                <video src={mediaUrl} controls className="rounded mb-3"/>
             )
         )}
 
