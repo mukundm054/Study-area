@@ -52,6 +52,9 @@ const Navbar = () => {
             <Link href="/jobs" className="text-gray-700 hover:text-blue-600">
               Jobs
             </Link>
+            <Link href="/Public" className="text-gray-700 hover:text-blue-600">
+              Public Space 
+            </Link>
 
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
@@ -128,6 +131,14 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Jobs
+            </Link>
+
+            <Link
+              href="/Public"
+              className="block px-4 py-3 text-white hover:bg-gray-100"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Public Space 
             </Link>
 
             <div className="px-4 py-3">
