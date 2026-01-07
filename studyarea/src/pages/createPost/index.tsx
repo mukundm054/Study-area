@@ -12,37 +12,43 @@ const index = () => {
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const [loading, setLoading] = useState(false);
 
-  const [friendCount,setFriendCount]=useState(0)
-  const [postsToday,setPostsToday]=useState(0)
-  const [canPost,setCanPost]=useState(true)
+  const [friendCount, setFriendCount] = useState(0);
+  const [postsToday, setPostsToday] = useState(0);
+  const [canPost, setCanPost] = useState(true);
 
-  useEffect(()=>{
-    if(!user?.email) return
+  useEffect(() => {
+    if (!user?.email) return;
 
-    const fetchLimit = async()=>{
+    const fetchLimit = async () => {
       try {
-        const friendRes=await axios.post("https://study-area-ko6n.onrender.com/api/user/friends-count",{email:user.email})
-        const count = friendRes.data.count
-        setFriendCount(count)
+        const friendRes = await axios.post(
+          "https://study-area-ko6n.onrender.com/api/user/friends-count",
+          { email: user.email }
+        );
+        const count = friendRes.data.count;
+        setFriendCount(count);
 
-        const postRes=await axios.post("https://study-area-ko6n.onrender.com/api/post/today-count",{email:user.email})
-        const todayCount=postRes.data.count
-        setPostsToday(todayCount)
+        const postRes = await axios.post(
+          "https://study-area-ko6n.onrender.com/api/post/today-count",
+          { email: user.email }
+        );
+        const todayCount = postRes.data.count;
+        setPostsToday(todayCount);
 
-        if(count===0){
-          setCanPost(false)
-        }else if(count>10){
-          setCanPost(true)
-        }else{
-          setCanPost(todayCount<count)
+        if (count === 0) {
+          setCanPost(false);
+        } else if (count > 10) {
+          setCanPost(true);
+        } else {
+          setCanPost(todayCount < count);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
-    fetchLimit()
-  },[user])
+    fetchLimit();
+  }, [user]);
 
   const handelPost = async () => {
     if (!user) {
@@ -64,11 +70,12 @@ const index = () => {
         mediaType,
       });
       toast.success("Post created sucessfull");
+      setPostsToday((prev) => prev + 1);
       setCaption("");
       setMediaUrl("");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to create post");
+      toast.error("Failed to create post or your daily limit reached");
     } finally {
       setLoading(false);
     }
@@ -85,24 +92,48 @@ const index = () => {
           placeholder="What's on your mind?"
           className="w-full border rounded p-2 mb-3 text-black"
         />
-        <input  value={mediaUrl}  onChange={(e) => {
+        <input
+          value={mediaUrl}
+          onChange={(e) => {
             setMediaUrl(e.target.value);
             setMediaType(e.target.value.includes(".mp4") ? "video" : "image");
           }}
           className="w-full border rounded p-2 mb-3 text-black"
-          />
+        />
 
-        {mediaUrl && (
-            mediaType==="image"?(
-                <img src={mediaUrl} className="rounded mb-3" />
-            ):(
-                <video src={mediaUrl} controls className="rounded mb-3"/>
-            )
-        )}
+        {mediaUrl &&
+          (mediaType === "image" ? (
+            <img src={mediaUrl} className="rounded mb-3" />
+          ) : (
+            <video src={mediaUrl} controls className="rounded mb-3" />
+          ))}
 
-        <button onClick={handelPost} disabled={loading || !canPost} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-400"  >
-            {loading ? "Posting..." : canPost ? "Post" : "Daily limit reached"}
+        <button
+          onClick={handelPost}
+          disabled={loading || !canPost}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-400"
+        >
+          {loading ? "Posting..." : canPost ? "Post" : "Daily limit reached"}
         </button>
+      </div>
+      <div className="mt-6 max-w-xl mx-auto bg-white border-l-4 border-purple-500 p-4 rounded-lg shadow">
+        <h2 className="text-lg font-semibold text-purple-600 mb-2">
+          Posting has limits
+        </h2>
+        <ul className="space-y-1 text-gray-700 text-sm">
+          <li>
+            🚫 <strong>0 friends:</strong> You cannot post
+          </li>
+          <li>
+            🟢 <strong>1 friend:</strong> 1 post per day
+          </li>
+          <li>
+            🟡 <strong>2 friends:</strong> 2 posts per day
+          </li>
+          <li>
+            🔥 <strong>More than 10 friends:</strong> Unlimited posts
+          </li>
+        </ul>
       </div>
     </div>
   );
