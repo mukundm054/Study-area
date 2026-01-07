@@ -1,6 +1,6 @@
 import { selectuser } from "@/Fetaure/Userslice";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -11,6 +11,38 @@ const index = () => {
   const [mediaUrl, setMediaUrl] = useState("");
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const [loading, setLoading] = useState(false);
+
+  const [friendCount,setFriendCount]=useState(0)
+  const [postsToday,setPostsToday]=useState(0)
+  const [canPost,setCanPost]=useState(true)
+
+  useEffect(()=>{
+    if(!user?.email) return
+
+    const fetchLimit = async()=>{
+      try {
+        const friendRes=await axios.post("https://study-area-ko6n.onrender.com/api/user/friends-count",{email:user.email})
+        const count = friendRes.data.count
+        setFriendCount(count)
+
+        const postRes=await axios.post("https://study-area-ko6n.onrender.com/api/post/today-count",{email:user.email})
+        const todayCount=postRes.data.count
+        setPostsToday(todayCount)
+
+        if(count===0){
+          setCanPost(false)
+        }else if(count>10){
+          setCanPost(true)
+        }else{
+          setCanPost(todayCount<count)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchLimit()
+  },[user])
 
   const handelPost = async () => {
     if (!user) {
@@ -68,8 +100,8 @@ const index = () => {
             )
         )}
 
-        <button onClick={handelPost} disabled={loading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-400"  >
-            {loading?"Posting...":"Post"}
+        <button onClick={handelPost} disabled={loading || !canPost} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-400"  >
+            {loading ? "Posting..." : canPost ? "Post" : "Daily limit reached"}
         </button>
       </div>
     </div>
