@@ -57,6 +57,34 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/today-count",async (req,res) => {
+  try {
+      const { email } = req.body;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const count = await Post.countDocuments({
+      userEmail: email,
+      createdAt: { $gte: today },
+    });
+
+    res.json({ count });
+  } catch (error) {
+      const { email } = req.body;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const count = await Post.countDocuments({
+      userEmail: email,
+      createdAt: { $gte: today },
+    });
+
+    res.json({ count });
+  }
+})
+
 
 router.get("/", async (req, res) => {
   try {

@@ -41,12 +41,6 @@ router.put("/add-friend", async (req, res) => {
 
 
 
-router.get("/friends-count/:email", async (req, res) => {
-  const user = await User.findOne({ email: req.params.email });
-  if (!user) return res.status(404).json({ count: 0 });
-  res.json({ count: user.friends.length });
-});
-
 router.post("/friends-count", async (req, res) => {
   const { email } = req.body;
 
@@ -57,5 +51,4 @@ router.post("/friends-count", async (req, res) => {
 
   res.json({ count: user.friends.length });
 });
-
 module.exports = router;
