@@ -50,6 +50,16 @@ const index = () => {
     fetchLimit();
   }, [user]);
 
+  let postLeft = 0;
+
+  if (friendCount === 0) {
+    postLeft === 0;
+  } else if (friendCount === 10) {
+    postLeft === -1;
+  } else {
+    postLeft = Math.max(friendCount - postsToday, 0);
+  }
+
   const handelPost = async () => {
     if (!user) {
       toast.error("please login first");
@@ -107,6 +117,24 @@ const index = () => {
           ) : (
             <video src={mediaUrl} controls className="rounded mb-3" />
           ))}
+
+        <div className="mb-3 text-sm font-semibold text-gray-700">
+          {friendCount === 0 && (
+            <span className="text-red-600">
+              ❌ Add at least 1 friend to start posting
+            </span>
+          )}
+
+          {friendCount > 0 && friendCount <= 10 && (
+            <span className="text-blue-700">
+              📌 Posts left today: {postLeft}
+            </span>
+          )}
+
+          {friendCount > 10 && (
+            <span className="text-green-700">🚀 Unlimited posts today</span>
+          )}
+        </div>
 
         <button
           onClick={handelPost}
