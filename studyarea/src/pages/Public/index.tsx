@@ -65,11 +65,11 @@ const index = () => {
     return <p className="text-center text-white">Loading post</p>;
   }
   return (
-    <div className="min-h-screen bg-black py-10">
+    <div className=" min-h-screen bg-black py-10">
       <h1 className="text-2xl font-bold text-purple-600 text-center mb-6">
         Public Space{" "}
       </h1>
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="w-full sm:max-w-2xl sm:mx-auto space-y-6 px-3">
         {posts.length === 0 ? (
           <p>No Post yet</p>
         ) : (
