@@ -138,7 +138,7 @@ const index = () => {
                     />
                     <button
                       onClick={() => handleComment(post._id)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover: scale-125 transition duration-150 text-sm w-full sm:w-auto"
+                      className="bg-blue-500 text-white px-3 py-1 rounded  text-sm w-full sm:w-auto"
                     >
                       Post
                     </button>
