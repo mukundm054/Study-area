@@ -65,39 +65,39 @@ const index = () => {
     return <p className="text-center text-white">Loading post</p>;
   }
   return (
-    <div className=" min-h-screen bg-black py-10">
-      <h1 className="text-2xl font-bold text-purple-600 text-center mb-6">
+    <div className="min-h-screen bg-black py-6 sm:py-10">
+      <h1 className="text-xl sm:text-2xl font-bold text-purple-600 text-center mb-4 sm:mb-6">
         Public Space{" "}
       </h1>
-      <div className="w-full sm:max-w-2xl sm:mx-auto space-y-6 px-3">
+      <div className="w-full max-w-full sm:max-w-2xl lg:max-w-3xl mx-auto space-y-6 px-2 sm:px-0">
         {posts.length === 0 ? (
           <p>No Post yet</p>
         ) : (
           posts.map((post) => (
-            <div key={post._id} className="bg-white rounded-lg shadow p-4">
+            <div key={post._id} className="bg-white rounded-lg shadow p-3 sm:p-4">
               {/* user */}
 
               <div className="flex items-center gap-3 mb-3">
-                <span className="font-semibold text-black">
+                <span className="font-semibold text-black text-sm sm:text-base break-all">
                   {post.userEmail}
                 </span>
               </div>
 
               {/* media */}
               {post.mediaType === "image" ? (
-                <img src={post.mediaUrl} className="w-full rounded-lg mb-3" />
+                <img src={post.mediaUrl} className="w-full max-h-75 sm:max-h-112.5 object-cover rounded-lg mb-3"/>
               ) : (
                 <video
                   src={post.mediaUrl}
                   controls
-                  className="w-full rounded-lg mb-3"
+                  className="w-full max-h-75 sm:max-h-112.5 object-cover rounded-lg mb-3"
                 />
               )}
 
               {/* Caption */}
-              <p className="text-gray-700 mb-2">{post.caption}</p>
+              <p className="text-gray-700 text-sm sm:text-base mb-2">{post.caption}</p>
 
-              <div className="flex items-center gap-6 text-gray-600">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-6 text-gray-600">
                 <div
                   className="flex items-center gap-1 cursor-pointer"
                   onClick={() => handleLike(post._id)}
@@ -113,18 +113,18 @@ const index = () => {
                   <span>{post.likes?.length || 0}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="mt-3">
+                  <div className="mt-2 space-y-1">
                     {Array.isArray(post.comments) &&
                       post.comments.map(
                         (c: { userEmail: string; text: string }, i: number) => (
-                          <p key={i} className="text-sm text-gray-600">
+                          <p key={i} className="text-xs sm:text-sm text-gray-600 wrap-break-word">
                             <strong>{c.userEmail}</strong>: {c.text}
                           </p>
                         )
                       )}
                   </div>
 
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex flex-col sm:flex-row gap-2 mt-2">
                     <input
                       value={commentText[post._id] || ""}
                       onChange={(e) =>
@@ -138,7 +138,7 @@ const index = () => {
                     />
                     <button
                       onClick={() => handleComment(post._id)}
-                      className="bg-blue-500 text-white px-3 rounded text-sm"
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover: scale-125 transition duration-150 text-sm w-full sm:w-auto"
                     >
                       Post
                     </button>
