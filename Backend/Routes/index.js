@@ -6,6 +6,7 @@ const job = require("./Job");
 const application = require("./Application")
 const User = require("./User");
 const Post = require("./Post")
+const auth = require("./Auth")
 
 router.use("/admin", admin);
 router.use("/interships", intern);
@@ -13,4 +14,5 @@ router.use("/jobs", job);
 router.use("/application",application)
 router.use("/user", User);
 router.use("/post",Post)
+router.use("/auth", auth);
 module.exports = router;
