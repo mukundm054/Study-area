@@ -17,6 +17,8 @@ function genreatePassword(length = 10) {
 }
 
 router.post("/signup", async (req, res) => {
+  const { name, email, phone, password } = req.body;
+
   try {
     if ((!email && !phone) || !password) {
       return res
@@ -39,9 +41,8 @@ router.post("/signup", async (req, res) => {
       email,
       phone,
       password: hashPassword,
-      authProvider: "local",
+      authProvider: email ? "email" : "phone",
     });
-
     res.json({ message: "Signup sucsessful", user });
   } catch (error) {
     res.status(500).json({ error: "Signup failed" });
@@ -91,7 +92,10 @@ router.post("/forgot-password", async (req, res) => {
 
     const today = new Date().toDateString();
 
-    if (user.lastPasswordReset === today) {
+    if (
+      user.lastPasswordReset &&
+      user.lastPasswordReset.toDateString() === today
+    ) {
       return res
         .status(403)
         .json({ error: "You can use this option only once per day" });

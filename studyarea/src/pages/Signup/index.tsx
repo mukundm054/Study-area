@@ -51,21 +51,21 @@ const Signup = () => {
             value={name}
             onChange={(e) => setname(e.target.value)}
             placeholder="Enter your name"
-            className="border p-2 w-full mb-4"
+            className="border p-2 w-full mb-4 text-black"
           />
 
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Enter phone no or Email"
-            className="border p-2 w-full mb-4"
+            className="border p-2 w-full mb-4 text-black"
           />
 
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="set your password"
-            className="border p-2 w-full mb-4"
+            className="border p-2 w-full mb-4 text-black"
           />
 
           <button
@@ -75,7 +75,7 @@ const Signup = () => {
           >
             {loading ? "Sign up...." : "signup"}
           </button>
-          <Link href="/Login" className="text-gray-700 hover:text-blue-600">
+          <Link href="/Login" className="text-gray-700 hover:text-blue-600 mt-2">
             Login
           </Link>
         </div>

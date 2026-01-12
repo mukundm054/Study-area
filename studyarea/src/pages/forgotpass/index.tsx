@@ -40,7 +40,7 @@ const ForgotPassword = () => {
         <h2 className="text-xl font-bold mb-4">Forgot Password</h2>
 
         <input
-          className="border p-2 w-full mb-4"
+          className="border p-2 w-full mb-4 text-black"
           placeholder="Email or Phone"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -53,9 +53,7 @@ const ForgotPassword = () => {
         >
           {loading ? "Resetting..." : "Reset Password"}
         </button>
-        <Link href="/forgotpass" className="text-gray-700 hover:text-blue-600">
-          Forgot password
-        </Link>
+        
       </div>
     </div>
   );

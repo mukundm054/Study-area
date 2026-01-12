@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Phone } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const login = () => {
   const [value, setvalue] = useState("");
   const [password, setPassword] = useState("");
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handelLogin = async () => {
     if (!value || !password) {
@@ -23,26 +24,26 @@ const login = () => {
     };
 
     try {
-      setLoading(true)
+      setLoading(true);
       await axios.post(
         "https://study-area-ko6n.onrender.com/api/auth/login",
         payload
       );
       toast.success("Login successfull");
     } catch (error) {
-      console.log(error)
-      toast.error("Login failed")
-    }finally{
-      setLoading(false)
+      console.log(error);
+      toast.error("Login failed");
+    } finally {
+      setLoading(false);
     }
   };
   return (
-     <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="bg-white p-6 rounded w-96">
         <h2 className="text-xl font-bold mb-4">Login</h2>
 
         <input
-          className="border p-2 w-full mb-2"
+          className="border p-2 w-full mb-2 text-black"
           placeholder="Email or Phone"
           value={value}
           onChange={(e) => setvalue(e.target.value)}
@@ -50,7 +51,7 @@ const login = () => {
 
         <input
           type="password"
-          className="border p-2 w-full mb-4"
+          className="border p-2 w-full mb-4 text-black"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -63,6 +64,12 @@ const login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        <Link
+          href="/forgotpass"
+          className="text-gray-700 hover:text-blue-600 mt-2"
+        >
+          Forgot password
+        </Link>
       </div>
     </div>
   );
