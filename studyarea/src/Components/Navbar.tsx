@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
+          <Link href="/" className="shrink-0">
             <img src="/logo.png" alt="studyarea" className="h-12" />
           </Link>
 
@@ -58,6 +58,10 @@ const Navbar = () => {
 
             <Link href="/createPost" className="text-gray-700 hover:text-blue-600">
               Create Post
+            </Link>
+
+            <Link href="/Signup" className="text-gray-700 hover:text-blue-600">
+              Signup
             </Link>
 
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
@@ -152,6 +156,15 @@ const Navbar = () => {
             >
               Create post 
             </Link>
+
+             <Link
+              href="/Signup"
+              className="block px-4 py-3 text-white hover:bg-gray-100"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Sign up 
+            </Link>
+
 
             <div className="px-4 py-3">
               <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">

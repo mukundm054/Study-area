@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const Userschema = new mongoose.Schema({
-  uid: { type: String, unique: true },
+  uid: { type: String, unique: true, sparse: true },
+
   name: String,
+
   email: { type: String, unique: true, sparse: true },
   phone: { type: String, unique: true, sparse: true },
+
   photo: String,
 
   password: String,
@@ -12,7 +15,7 @@ const Userschema = new mongoose.Schema({
   authProvider: {
     type: String,
     enum: ["google", "email", "phone"],
-    require: true,
+    required: true,
   },
 
   friends: [String],

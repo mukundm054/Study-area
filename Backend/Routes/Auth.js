@@ -7,7 +7,7 @@ function genreatePassword(length = 10) {
   const chars =
     "ABCDERFGHIJKLMNOPQRESTUYWXYZabcdefghijklmnopqrstuABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-  const password = "";
+  let password = "";
 
   for (let i = 0; i < length; i++) {
     password += chars[Math.floor(Math.random() * chars.length)];
@@ -18,10 +18,12 @@ function genreatePassword(length = 10) {
 
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
-    if ((!email && !password) || !password) {
-      return res.status(400).json({ error: "Email or Phone no required" });
+    if ((!email && !phone) || !password) {
+      return res
+        .status(400)
+        .json({ error: "Email or phone and password required" });
     }
+
     const existingUser = await User.findOne({
       $or: [{ email }, { phone }],
     });
@@ -48,7 +50,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, phone, password } = res.body;
+    const { email, phone, password } = req.body;
 
     const user = await User.findOne({
       $or: [{ email }, { phone }],
@@ -71,7 +73,8 @@ router.post("/login", async (req, res) => {
 
 router.post("/forgot-password", async (req, res) => {
   try {
-    const { email, phone } = res.body;
+    const { email, phone } = req.body;
+
     const user = await User.findOne({
       $or: [{ email }, { phone }],
     });
@@ -83,29 +86,31 @@ router.post("/forgot-password", async (req, res) => {
     if (user.authProvider === "google") {
       return res
         .status(400)
-        .json({ error: "google user cannot reset password" });
+        .json({ error: "Google users cannot reset password" });
     }
 
     const today = new Date().toDateString();
+
     if (user.lastPasswordReset === today) {
       return res
         .status(403)
         .json({ error: "You can use this option only once per day" });
     }
-    const newpassword = genreatePassword();
-    const hashed = await bcrypt.hash(newpassword, 10);
+
+    const newPassword = genreatePassword();
+    const hashed = await bcrypt.hash(newPassword, 10);
 
     user.password = hashed;
     user.lastPasswordReset = today;
     await user.save();
 
-     res.json({
+    res.json({
       message: "Password reset successful",
-      newPassword, 
+      newPassword,
     });
   } catch (error) {
     res.status(500).json({ error: "Password reset failed" });
   }
 });
 
-module.exports=router
+module.exports = router;
