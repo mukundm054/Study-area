@@ -53,14 +53,15 @@ const Navbar = () => {
               Jobs
             </Link>
             <Link href="/Public" className="text-gray-700 hover:text-blue-600">
-              Public Space 
+              Public Space
             </Link>
 
-            <Link href="/createPost" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/createPost"
+              className="text-gray-700 hover:text-blue-600"
+            >
               Create Post
             </Link>
-
-            
 
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
@@ -99,77 +100,69 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <>
-                <button
-                  onClick={handleLogin}
-                  className=" text-gray-600 md:text-3xl border h-auto border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50"
-                >
-                  Continue with Google
-                </button>
-
-                <Link
-                  href="/AdminSignup"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  ADMIN
-                </Link>
-              </>
+              <button
+                onClick={handleLogin}
+                className=" text-gray-600 md:text-3xl border h-auto border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50"
+              >
+                Continue with Google
+              </button>
             )}
+            <Link
+              href="/AdminSignup"
+              className="text-gray-600 hover:text-gray-800"
+            >
+              ADMIN
+            </Link>
           </div>
         </div>
-
-        
       </div>
 
       {mobileMenuOpen && (
-          <div className="md:hidden bg-sky-400 shadow-md border-t">
-            <Link
-              href="/Interships"
-              className="block px-4 py-3 text-white hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Internships
-            </Link>
+        <div className="md:hidden bg-sky-400 shadow-md border-t">
+          <Link
+            href="/Interships"
+            className="block px-4 py-3 text-white hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Internships
+          </Link>
 
-            <Link
-              href="/jobs"
-              className="block px-4 py-3 text-white hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Jobs
-            </Link>
+          <Link
+            href="/jobs"
+            className="block px-4 py-3 text-white hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Jobs
+          </Link>
 
-            <Link
-              href="/Public"
-              className="block px-4 py-3 text-white hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Public Space 
-            </Link>
+          <Link
+            href="/Public"
+            className="block px-4 py-3 text-white hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Public Space
+          </Link>
 
-            <Link
-              href="/createPost"
-              className="block px-4 py-3 text-white hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Create post 
-            </Link>
+          <Link
+            href="/createPost"
+            className="block px-4 py-3 text-white hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Create post
+          </Link>
 
-             
-
-
-            <div className="px-4 py-3">
-              <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
-                <Search size={16} className="text-gray-600" />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="ml-2 bg-transparent focus:outline-none text-sm w-full text-black"
-                />
-              </div>
+          <div className="px-4 py-3">
+            <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
+              <Search size={16} className="text-gray-600" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="ml-2 bg-transparent focus:outline-none text-sm w-full text-black"
+              />
             </div>
           </div>
-        )}
+        </div>
+      )}
     </nav>
   );
 };
