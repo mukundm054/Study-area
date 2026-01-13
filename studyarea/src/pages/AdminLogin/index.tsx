@@ -53,7 +53,7 @@ const index = () => {
       </div>
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="bg-white p-6 rounded w-96">
-          <h2 className="text-xl font-bold mb-4">Login</h2>
+          <h2 className="text-xl text-purple-600 font-bold mb-4">Login</h2>
 
           <input
             className="border p-2 w-full mb-2 text-black"

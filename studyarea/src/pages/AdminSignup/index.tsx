@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const index = () => {
   const [name, setname] = useState("");
@@ -86,6 +87,12 @@ const index = () => {
             >
               {loading ? "Sign up...." : "signup"}
             </button>
+            <Link
+                  href="/AdminLogin"
+                  className="text-gray-400 hover:text-gray-800"
+                >
+                  Login
+                </Link>
           </div>
         </div>
       </div>
