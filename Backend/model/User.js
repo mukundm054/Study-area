@@ -1,29 +1,13 @@
 const mongoose = require("mongoose");
 
-const Userschema = new mongoose.Schema({
-  uid: { type: String, unique: true, sparse: true },
+const UserSchema = new mongoose.Schema({
+  uid: { type: String, required: true, unique: true }, 
 
   name: String,
-
-  email: { type: String, unique: true, sparse: true },
-  phone: { type: String, unique: true, sparse: true },
-
+  email: { type: String, required: true, unique: true },
   photo: String,
 
-  password: String,
-
-  authProvider: {
-    type: String,
-    enum: ["google", "email", "phone"],
-    required: true,
-  },
-
-  friends: [String],
-
-  lastPasswordReset: {
-    type: Date,
-    default: null,
-  },
+  friends: [String], 
 
   createdAt: {
     type: Date,
@@ -31,4 +15,4 @@ const Userschema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", Userschema);
+module.exports = mongoose.model("User", UserSchema);
