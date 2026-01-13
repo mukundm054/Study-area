@@ -60,9 +60,7 @@ const Navbar = () => {
               Create Post
             </Link>
 
-            <Link href="/Signup" className="text-gray-700 hover:text-blue-600">
-              Signup
-            </Link>
+            
 
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
@@ -110,7 +108,7 @@ const Navbar = () => {
                 </button>
 
                 <Link
-                  href="/AdminLogin"
+                  href="/AdminSignup"
                   className="text-gray-600 hover:text-gray-800"
                 >
                   ADMIN
@@ -157,13 +155,7 @@ const Navbar = () => {
               Create post 
             </Link>
 
-             <Link
-              href="/Signup"
-              className="block px-4 py-3 text-white hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign up 
-            </Link>
+             
 
 
             <div className="px-4 py-3">

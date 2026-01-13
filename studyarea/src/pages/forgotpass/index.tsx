@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://study-area-ko6n.onrender.com/api/auth/forgot-password",
+        "https://study-area-ko6n.onrender.com/api/admin/forgot-password",
         payload
       );
       toast.success(`New Password: ${res.data.newPassword}`);
