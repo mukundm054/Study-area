@@ -6,6 +6,7 @@ const job = require("./Job");
 const application = require("./Application")
 const User = require("./User");
 const Post = require("./Post")
+const subscription=require("./Subscription")
 
 
 router.use("/admin", admin);
@@ -14,5 +15,6 @@ router.use("/jobs", job);
 router.use("/application",application)
 router.use("/user", User);
 router.use("/post",Post)
+router.use("/subscription",subscription)
 
 module.exports = router;

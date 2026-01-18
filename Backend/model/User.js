@@ -7,6 +7,25 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   photo: String,
 
+  subscription:{
+    plan:{
+      type:String,
+      enum:["FREE","BRONZE","SILVER","GOLD"],
+      default: "FREE"
+    },
+
+    expiresAt:{
+      type:Date,
+      default:null
+    },
+
+    applicationUsed:{
+      type:Number,
+      default:0
+    }
+
+  },
+
   friends: [String], 
 
   createdAt: {
