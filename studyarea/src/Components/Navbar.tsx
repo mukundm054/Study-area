@@ -62,6 +62,12 @@ const Navbar = () => {
             >
               Create Post
             </Link>
+            <Link
+              href="/subscription"
+              className="text-gray-700 hover:text-blue-600"
+            >
+              Subscription
+            </Link>
 
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
@@ -149,6 +155,13 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             Create post
+          </Link>
+          <Link
+            href="/subscription"
+            className="block px-4 py-3 text-white hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Subscription
           </Link>
 
           <div className="px-4 py-3">
