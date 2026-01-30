@@ -5,6 +5,7 @@ const SUBSCRIPTION_PLAN = require("../config/subscriptionPlan");
 const crypto = require("crypto");
 const { error } = require("console");
 const User = require("../model/User");
+const transports = require("../config/mailer");
 
 router.post("/create-payment", async (req, res) => {
   try {
@@ -70,6 +71,23 @@ router.post("/verify-payment", async (req, res) => {
     }
 
     await user.save();
+
+    const planDetails = SUBSCRIPTION_PLAN[plan];
+
+    await transports.sendMail({
+      from: `"Studyarea" <${process.env.EMAIL_USER}> `,
+      to: user.email,
+      subject: "Subscription Activated",
+      html: `
+      <h2>Subscription Successful</h2>
+    <p><strong>Plan:</strong> ${plan}</p>
+    <p><strong>Amount Paid:</strong> ₹${planDetails.price}</p>
+    <p><strong>Valid Till:</strong> ${expiry.toDateString()}</p>
+    <p><strong>Payment ID:</strong> ${razorpay_payment_id}</p>
+    <br/>
+    <p>Thank you for subscribing to StudyArea </p>
+      `,
+    });
 
     res.json({
       message: "payment verified and subscription activated",

@@ -14,15 +14,32 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const plan = dbUser.subscription.plan;
-    const planLimit = SUBSCRIPTION_PLAN[plan].limit;
+    const { plan, expiresAt, applicationUsed } = dbUser.subscription;
 
-    if (dbUser.subscription.applicationUsed >= planLimit) {
-      return res
-        .status(403)
-        .json({ error: `Application Limit is reached for ${plan} plan` });
+    
+    if (
+      plan !== "FREE" &&
+      expiresAt &&
+      expiresAt < new Date()
+    ) {
+      return res.status(403).json({
+        error: "Subscription expired. Please renew your plan.",
+      });
     }
 
+    const planLimit = SUBSCRIPTION_PLAN[plan].limit;
+
+    
+    if (
+      plan !== "GOLD" &&
+      applicationUsed >= planLimit
+    ) {
+      return res.status(403).json({
+        error: `Application limit reached for ${plan} plan`,
+      });
+    }
+
+   
     const applicationData = new Application({
       company: req.body.company,
       category: req.body.category,
@@ -34,14 +51,20 @@ router.post("/", async (req, res) => {
 
     await applicationData.save();
 
-    dbUser.subscription.applicationUsed += 1;
-    await dbUser.save();
+    
+    if (plan !== "GOLD") {
+      dbUser.subscription.applicationUsed += 1;
+      await dbUser.save();
+    }
 
-    res
-      .status(201)
-      .json({ message: "Application Submitted successful", applicationData });
+    res.status(201).json({
+      message: "Application submitted successfully",
+      application: applicationData,
+      applicationsUsed: dbUser.subscription.applicationUsed,
+      plan,
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -49,50 +72,49 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const data = await Application.find();
-    res.json(data).status(200);
+    res.status(200).json(data);
   } catch (error) {
-    console.log(error);
-    res.status(404).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
   try {
-    const data = await Application.findById(id);
+    const data = await Application.findById(req.params.id);
     if (!data) {
-      res.status(404).json({ error: "Application not found" });
+      return res.status(404).json({ error: "Application not found" });
     }
-    res.json(data).status(200);
+    res.status(200).json(data);
   } catch (error) {
-    console.log(error);
-    res.status(404).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { action } = req.body;
-  let status;
-  if (action === "accepted") {
-    status = "accepted";
-  } else if (action === "rejected") {
-    status = "rejected";
-  } else {
-    res.status(404).json({ error: "Internal Server Error" });
-    return;
-  }
   try {
-    const updateapplication = await Application.findByIdAndUpdate(
-      id,
-      { $set: { status } },
-      { new: true },
-    );
-    if (!updateapplication) {
-      res.status(404).json({ error: "Not able to update application" });
-      return;
+    const { action } = req.body;
+    const status =
+      action === "accepted"
+        ? "accepted"
+        : action === "rejected"
+        ? "rejected"
+        : null;
+
+    if (!status) {
+      return res.status(400).json({ error: "Invalid action" });
     }
-    res.status(200).json({ sucess: true, data: updateapplication });
+
+    const updated = await Application.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    res.status(200).json({ success: true, data: updated });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

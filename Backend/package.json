@@ -20,6 +20,7 @@
     "express": "^5.2.1",
     "mongodb": "^7.0.0",
     "mongoos": "^0.0.1-security",
+    "nodemailer": "^7.0.13",
     "nodemon": "^3.1.11",
     "razorpay": "^2.9.6"
   }
