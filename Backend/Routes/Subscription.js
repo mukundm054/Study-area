@@ -23,10 +23,10 @@ router.post("/create-payment", async (req, res) => {
         .json({ error: "payment allow only between 10 AM  and 11 AM IST" });
     }
     const amount = SUBSCRIPTION_PLAN[plan].price * 100;
-    const order = razorpay.orders.create({
+    const order = await razorpay.orders.create({
       amount,
       currency: "INR",
-      receipt: `recipt_${Date.now()}`,
+      receipt: `receipt_${Date.now()}`,
     });
     res.json(order);
   } catch (error) {
@@ -65,6 +65,10 @@ router.post("/verify-payment", async (req, res) => {
     user.subscription.expiresAt = expiry;
     user.subscription.applicationUsed = 0;
 
+    if (!SUBSCRIPTION_PLAN[plan]) {
+      return res.status(400).json({ error: "Invalid plan" });
+    }
+
     await user.save();
 
     res.json({
@@ -73,7 +77,7 @@ router.post("/verify-payment", async (req, res) => {
       expiresAt: expiry,
     });
   } catch (error) {
-    res.status(500).json({error:"payment verification failed"})
+    res.status(500).json({ error: "payment verification failed" });
   }
 });
 
