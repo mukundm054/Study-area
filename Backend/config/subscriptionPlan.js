@@ -13,7 +13,7 @@ const SUBSCRIPTION_PLAN = {
   },
   GOLD: {
     price: 1000,
-    limit: Infinity,
+    limit: 999999,
   },
 };
 

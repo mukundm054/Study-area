@@ -39,6 +39,7 @@ function InternshipDetails() {
   const [coverLetter, setCoverLetter] = useState("");
   const [Availability, setAvailability] = useState("");
   const user = useSelector(selectuser);
+  
 
   if (!router.isReady) {
     return <div className="text-center mt-10">Loading...</div>;
@@ -69,7 +70,7 @@ function InternshipDetails() {
         company: internshipData.company,
         coverLetter: coverLetter,
         availability: Availability,
-        user: user,
+        user: user._id,
         internship: id,
       };
 

@@ -12,10 +12,11 @@ const plans = [
   { name: "GOLD", label: "Gold – ₹1000 / month (Unlimited)" },
 ];
 
-const user = useSelector(selectuser);
+
 
 
 const index = () => {
+  const user = useSelector(selectuser);
   const handlePayment = async (plan: string) => {
     try {
       
