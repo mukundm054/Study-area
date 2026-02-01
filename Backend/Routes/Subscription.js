@@ -18,7 +18,7 @@ router.post("/create-payment", async (req, res) => {
       now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
     );
     const hour = istTime.getHours();
-    if (hour < 10 || hour >= 11) {
+    if (hour < 10 || hour >= 23) {
       return res
         .status(403)
         .json({ error: "payment allow only between 10 AM  and 11 AM IST" });

@@ -89,7 +89,7 @@ const index = () => {
         ))}
 
         <p className="text-xs text-gray-600 text-center mt-3">
-          Payments allowed only between <b>10:00 – 11:00 AM IST</b>
+          Payments allowed only between <b>10:00 – 11:00 PM IST</b>
         </p>
       </div>
     </div>
