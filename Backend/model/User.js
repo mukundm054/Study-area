@@ -1,36 +1,46 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  uid: { type: String, required: true, unique: true }, 
+  uid: { type: String, required: true, unique: true },
 
   name: String,
   email: { type: String, required: true, unique: true },
   photo: String,
 
-  subscription:{
-    plan:{
-      type:String,
-      enum:["FREE","BRONZE","SILVER","GOLD"],
-      default: "FREE"
+  subscription: {
+    plan: {
+      type: String,
+      enum: ["FREE", "BRONZE", "SILVER", "GOLD"],
+      default: "FREE",
     },
 
-    expiresAt:{
-      type:Date,
-      default:null
+    expiresAt: {
+      type: Date,
+      default: null,
     },
 
-    applicationUsed:{
-      type:Number,
-      default:0
-    }
-
+    applicationUsed: {
+      type: Number,
+      default: 0,
+    },
   },
 
-  friends: [String], 
+  friends: [String],
 
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+
+  resumePlan: {
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    expiresAt: {
+      type: Date,
+      default: null,
+    },
   },
 });
 
