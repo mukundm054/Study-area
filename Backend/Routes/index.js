@@ -9,6 +9,7 @@ const Post = require("./Post")
 const subscription=require("./Subscription")
 const resume=require("./Resume")
 const resumePayment = require("./resumePayment")
+const resumeOtp=require("./otp")
 
 
 router.use("/admin", admin);
@@ -20,5 +21,6 @@ router.use("/post",Post)
 router.use("/subscription",subscription)
 router.use("/resume",resume)
 router.use("/resume-payment",resumePayment)
+router.use("/resume-otp",resumeOtp)
 
 module.exports = router;

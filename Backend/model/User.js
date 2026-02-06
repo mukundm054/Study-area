@@ -32,16 +32,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  resumePlan: {
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    expiresAt: {
-      type: Date,
-      default: null,
-    },
-  },
+  
 });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,30 +1,50 @@
 const express = require("express");
 const router = express.Router();
-const razorpay = require("razorpay");
 const crypto = require("crypto");
-const User = require("../model/User");
-const Razorpay = require("razorpay");
+const razorpay = require("../config/razorpay");
+const Resume = require("../model/Resume");
+const ResumeOTP = require("../model/Otp");
 
-const RESUME_AMOUNT = 50 * 100;
+const RESUME_AMOUNT = 50 * 100; // ₹50
 
 router.post("/create-payment", async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { resumeId } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ error: "User id required" });
+    if (!resumeId) {
+      return res.status(400).json({ error: "Resume ID required" });
+    }
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
+
+    if (resume.isPaid) {
+      return res.status(400).json({ error: "Resume already paid" });
+    }
+
+    const otpRecord = await ResumeOTP.findOne({
+      resumeId,
+      verified: true,
+    });
+
+    if (!otpRecord) {
+      return res
+        .status(403)
+        .json({ error: "OTP verification required before payment" });
     }
 
     const order = await razorpay.orders.create({
       amount: RESUME_AMOUNT,
       currency: "INR",
-      receipt: `resume_${Date.now()}`,
+      receipt: `resume_${resumeId}`,
     });
 
     res.json(order);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Resume payment  failed" });
+    res.status(500).json({ error: "Resume payment failed" });
   }
 });
 
@@ -34,7 +54,7 @@ router.post("/verify-payment", async (req, res) => {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      userId,
+      resumeId,
     } = req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -43,30 +63,24 @@ router.post("/verify-payment", async (req, res) => {
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body)
       .digest("hex");
-    
-    if(expectedSignature !==razorpay_signature){
-        return res.status(400).json({error:"Invalid payment signature"})
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({ error: "Invalid signature" });
     }
 
-    const user = await User.findById(userId)
-    if(!user) return res.status(404).json({error:"User not found"})
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
 
-    const expire = new Date()
-    expire.setDate(expire.getDate()+30)
+    resume.isPaid = true;
+    await resume.save();
 
-    user.resumePlan.active=true
-    user.resumePlan.expiresAt=expire
-
-    await user.save()
-
-    res.json({
-        message:"resume plan activate",
-        expiresAt:expire
-    })
+    res.json({ message: "Resume payment successful" });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({error:"payment varification failed"})
+    console.log(error);
+    res.status(500).json({ error: "Payment verification failed" });
   }
 });
 
-module.exports=router
+module.exports = router;
