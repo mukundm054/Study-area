@@ -40,6 +40,10 @@ const ResumeSchema = new mongoose.Schema(
 
     photo: String,
 
+    pdfUrl:{
+      type:String
+    },
+
     isPaid: {
       type: Boolean,
       default: false,

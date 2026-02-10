@@ -20,6 +20,15 @@ const ApplicationSchema = new mongoose.Schema({
     enum: ["accepted", "pending", "rejected"],
     default: "pending",
   },
+
+  resume:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Resume"
+  },
+
+  resumePdfUrl:{
+    type:String
+  }
 });
 
 module.exports = mongoose.model("Application", ApplicationSchema);

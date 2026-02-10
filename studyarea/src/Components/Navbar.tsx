@@ -69,6 +69,10 @@ const Navbar = () => {
               Subscription
             </Link>
 
+            <Link href="/resume" className="text-gray-700 hover:text-blue-600">
+              Resume
+            </Link>
+
             <div className="flex items-center border border-gray-300 rounded-md px-2 py-1">
               <Search size={16} className="text-gray-600" />
               <input
@@ -162,6 +166,10 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             Subscription
+          </Link>
+
+          <Link href="/resume" className="text-gray-700 hover:text-blue-600">
+            Resume
           </Link>
 
           <div className="px-4 py-3">
