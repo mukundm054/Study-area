@@ -14,30 +14,36 @@ const CreateResume = () => {
   const [skills, setSkills] = useState("");
 
   const handleCreate = async () => {
-    if (!fullName || !summary) {
-      toast.error("Required fields missing");
-      return;
-    }
+    if (!user?._id) {
+    toast.error("Please login first");
+    return;
+  }
+
+  if (!fullName || !summary) {
+    toast.error("Required fields missing");
+    return;
+  }
 
     try {
-      await axios.post(
-        "https://study-area-ko6n.onrender.com/api/resume",
-        {
-          userId: user._id,
-          personal: {
-            fullName,
-            email: user.email,
-            summary,
-          },
-          skills: skills.split(","),
-        }
-      );
+    await axios.post(
+      "https://study-area-ko6n.onrender.com/api/resume",
+      {
+        userId: user._id,
+        personal: {
+          fullName,
+          email: user.email,
+          summary,
+        },
+        skills: skills.split(","),
+      }
+    );
 
-      toast.success("Resume created");
-      router.push("/resume");
-    } catch {
-      toast.error("Resume creation failed");
-    }
+    toast.success("Resume created");
+    router.push("/resume");
+  } catch (error: any) {
+    console.log(error.response?.data);
+    toast.error("Resume creation failed");
+  }
   };
 
   return (
