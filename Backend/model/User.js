@@ -32,7 +32,11 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  
+  preferredLanguage: {
+    type: String,
+    enmu: ["en", "es", "hi", "pt", "zh", "fr"],
+    default: "en",
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
