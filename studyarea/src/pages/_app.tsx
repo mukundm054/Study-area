@@ -10,14 +10,17 @@ import { login, logout } from "@/Fetaure/Userslice";
 import { User } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-export default function App({ Component, pageProps }: AppProps) {
+
+
+import { appWithTranslation } from "next-i18next";
+ function App({ Component, pageProps }: AppProps) {
   function AuthListener() {
     const dispatch = useDispatch();
    useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged(async (user) => {
     if (user) {
 
-      // 🔴 THIS IS THE FIX
+      
       await axios.post(
         "https://study-area-ko6n.onrender.com/api/user/create",
         {
@@ -55,3 +58,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </Provider>
   );
 }
+
+export default appWithTranslation(App)

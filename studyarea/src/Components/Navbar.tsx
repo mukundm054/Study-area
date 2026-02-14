@@ -6,6 +6,7 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { selectuser } from "@/Fetaure/Userslice";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface User {
   name: string;
@@ -85,6 +86,7 @@ const Navbar = () => {
 
           {/* Auth Section */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             <button
               className="md:hidden text-gray-700"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -129,6 +131,9 @@ const Navbar = () => {
 
       {mobileMenuOpen && (
         <div className="md:hidden bg-sky-400 shadow-md border-t">
+          <div className="px-4 py-3">
+            <LanguageSwitcher />
+          </div>
           <Link
             href="/Interships"
             className="block px-4 py-3 text-white hover:bg-gray-100"
