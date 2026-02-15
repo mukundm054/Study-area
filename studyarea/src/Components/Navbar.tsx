@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { auth, provider } from "../Firebase/firebase";
-import { signInWithPopup, signOut } from "firebase/auth";
+import {  signInWithRedirect, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { selectuser } from "@/Fetaure/Userslice";
@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithRedirect(auth, provider);
 
       toast.success("logged In Successfull");
     } catch (error) {
