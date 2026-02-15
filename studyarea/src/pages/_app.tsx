@@ -33,6 +33,7 @@ import { appWithTranslation } from "next-i18next";
 
       dispatch(
         login({
+          id:user.uid,
           uid: user.uid,
           photo: user.photoURL,
           name: user.displayName,
