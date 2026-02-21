@@ -11,6 +11,7 @@ const resume = require("./Resume");
 const resumePayment = require("./resumePayment");
 const resumeOpt = require("./resumeOtp");
 const language = require("./Language");
+const auth = require("./Auth")
 
 router.use("/admin", admin);
 router.use("/interships", intern);
@@ -23,5 +24,6 @@ router.use("/resume", resume);
 router.use("/resume-payment", resumePayment);
 router.use("/resume-otp", resumeOpt);
 router.use("/language", language);
+router.use("/auth",auth)
 
 module.exports = router;
