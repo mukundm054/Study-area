@@ -24,7 +24,7 @@ const index = () => {
       try {
         const res = await axios.post(
           "https://study-area-ko6n.onrender.com/api/user/friends-count",
-          { email: user.email }
+          { email: user.email },
         );
         setFriendCount(res.data.count);
       } catch (error) {
@@ -47,7 +47,7 @@ const index = () => {
         {
           userEmail: user.email,
           friendEmail: friendEmail,
-        }
+        },
       );
 
       toast.success("Friend added successfully");
@@ -73,7 +73,7 @@ const index = () => {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gray-900 rounded-2xl shadow-lg overflow-hidden">
           {/* Profile Header */}
-          <div className="relative h-32 bg-gradient-to-r from-blue-500 to-blue-600">
+          <div className="relative h-32 bg-linear-to-r from-blue-500 to-blue-600">
             <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
               {user?.photo ? (
                 <img
@@ -139,6 +139,11 @@ const index = () => {
                   {" "}
                   View Applications
                   <ExternalLink className="ml-2 h-4 w-4" />{" "}
+                </Link>
+                <Link href="/loginHistory">
+                  <button className="bg-purple-600 text-white px-4 py-2 rounded">
+                    View Login History
+                  </button>
                 </Link>
               </div>
             </div>

@@ -4,34 +4,71 @@ import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { auth, provider } from "../Firebase/firebase";
 import {  signInWithPopup, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { selectuser } from "@/Fetaure/Userslice";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout, selectuser } from "@/Fetaure/Userslice";
 import LanguageSwitcher from "./LanguageSwitcher";
+import axios from "axios";
 
-interface User {
-  name: string;
-  email: string;
-  photo: string;
-}
+
 
 const Navbar = () => {
   const user = useSelector(selectuser);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dispatch = useDispatch()
+  const [otpRequired,setOtpRequired] = useState(false)
+  const [otpUserId,setOtpUserId] = useState("")
+  const [otp,setOtp] = useState("")
 
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth,provider)
+      const firebaseUser = result.user
 
-      toast.success("logged In Successfull");
-    } catch (error) {
-      console.error(error);
-      toast.error("logged In Failed");
+      const res = await axios.post("https://study-area-ko6n.onrender.com/api/auth/login",
+        {
+          uid:firebaseUser.uid,
+          name:firebaseUser.displayName,
+          email:firebaseUser.email,
+          photo:firebaseUser.photoURL
+        }
+      )
+
+      if(res.data.otpRequired){
+        setOtpRequired(true)
+        setOtpUserId(res.data.userId)
+        return
+      }
+
+      dispatch(login(res.data.user))
+    } catch (error:any) {
+      toast.error(error?.response?.data?.error || "login failed")
     }
   };
 
-  const handleLogout = () => {
-    signOut(auth);
-  };
+  const verifyOtp = async()=>{
+    try {
+      await axios.post("https://study-area-ko6n.onrender.com/api/auth/verify-login-otp",{
+        userId:otpUserId,
+        otp,
+      })
+
+      const userRes = await axios.post("https://study-area-ko6n.onrender.com/api/auth/login",
+        {
+          uid:otpUserId
+        }
+      )
+
+      dispatch(login(userRes.data.user))
+      setOtpRequired(false)
+    } catch (error:any) {
+      toast.error(error?.response?.data?.error || "OTP VERIFICATION FAILED")
+    }
+  }
+
+  const handelLogout = async()=>{
+    await signOut(auth)
+    dispatch(logout())
+  }
 
   return (
     <nav className="bg-white shadow-md h-auto ">
@@ -105,7 +142,7 @@ const Navbar = () => {
                   </Link>
                 </button>
                 <button
-                  onClick={handleLogout}
+                  onClick={handelLogout}
                   className="w-full text-left text-red-600 px-3 py-2 rounded-md hover:bg-red-50"
                 >
                   Logout
@@ -189,6 +226,29 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      {otpRequired && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded w-80 space-y-4">
+      <h2 className="text-lg font-bold text-center">
+        Enter OTP
+      </h2>
+
+      <input
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+        className="border p-2 w-full"
+        placeholder="Enter OTP"
+      />
+
+      <button
+        onClick={verifyOtp}
+        className="bg-blue-600 text-white w-full py-2 rounded"
+      >
+        Verify OTP
+      </button>
+    </div>
+  </div>
+)}
     </nav>
   );
 };

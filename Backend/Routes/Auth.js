@@ -134,12 +134,14 @@ router.post("/verify-login-otp", async (req, res) => {
   record.verified = true;
   await record.save();
 
+  const user = await User.findById(userId);
+
   await LoginHistory.create({
     userId,
     status: "SUCCESS",
   });
 
-  res.json({ success: true });
+  res.json({ success: true, user });
 });
 
 
