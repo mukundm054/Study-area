@@ -1,5 +1,5 @@
 module.exports={
-    il8n:{
+    i18n:{
         defaultLocale:"en",
         locales:["en","es","hi","pt","zh","fr"]
     }

@@ -53,9 +53,9 @@ const index = () => {
   let postLeft = 0;
 
   if (friendCount === 0) {
-    postLeft === 0;
+    postLeft = 0;
   } else if (friendCount === 10) {
-    postLeft === -1;
+    postLeft = -1;
   } else {
     postLeft = Math.max(friendCount - postsToday, 0);
   }
